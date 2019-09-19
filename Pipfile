@@ -7,8 +7,8 @@ verify_ssl = true
 
 [packages]
 simple-salesforce = "*"
-json = "*"
-argparse = "*"
+progress = "*"
+pyaescrypt = "*"
 
 [requires]
 python_version = "3.7"
