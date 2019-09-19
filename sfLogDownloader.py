@@ -6,8 +6,10 @@ from concurrent.futures import ThreadPoolExecutor
 from simple_salesforce import Salesforce, exceptions
 from getpass import getpass
 import pyAesCrypt
+from progress.bar import ChargingBar
 
 profile_settings = None
+progress_bar = None
 
 
 def download_log(instance, log_url, log_id, headers):
@@ -18,7 +20,7 @@ def download_log(instance, log_url, log_id, headers):
         with open(log_file_name, mode='w') as log_file:
             log_file.write(req_result.text)
         log_file.close()
-        print('Done with log ' + log_id)
+        progress_bar.next()
     except Exception as e:
         print(traceback.format_exc())
 
@@ -126,10 +128,11 @@ log_data = sf.query_all(
     'FROM ApexLog')
 
 items = list(log_data['records'])
+progress_bar = ChargingBar('Processing logs', max=len(items))
 
 if len(items) == 0:
     print("No logs to download found. Exiting.")
-    exit(2)
+    exit(1)
 else:
     with ThreadPoolExecutor(max_workers=100) as executor:
         for item in items:
