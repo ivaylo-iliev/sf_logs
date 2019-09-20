@@ -30,7 +30,7 @@ def decrypt_profile(file):
     data = None
     if os.path.isfile(file):
         buffer_size = 64 * 1024
-        enc_password = getpass('Please enter the encryption password:')
+        enc_password = getpass('Please enter encryption password:')
         try:
             pyAesCrypt.decryptFile(file, file[:-4], enc_password, buffer_size)
             with open(file[:-4]) as json_file:
@@ -142,3 +142,5 @@ else:
     with ThreadPoolExecutor(max_workers=100) as executor:
         for item in items:
             future = executor.submit(download_log, instance_url, item['attributes']['url'], item['Id'], sf.headers)
+
+progress_bar.finish()
