@@ -7,6 +7,7 @@ from simple_salesforce import Salesforce, exceptions
 from getpass import getpass
 import pyAesCrypt
 from progress.bar import ChargingBar
+from sys import argv
 
 profile_settings = None
 progress_bar = None
@@ -59,6 +60,10 @@ parser = argparse.ArgumentParser(description='Usage:')
 parser.add_argument('-o', '--output_dir', type=str, help='Output directory')
 requiredNamed = parser.add_argument_group('Required arguments')
 requiredNamed.add_argument('name', help='Profile name')
+
+if not len(argv) > 1:
+    print('No profile specified. Exiting.')
+    exit(0)
 
 args = parser.parse_args()
 
