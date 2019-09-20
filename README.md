@@ -1,7 +1,7 @@
 # SF_LOGS
 #### A tool to easily download Salesforce APEX logs in bulk
 
-##Prerequisites
+## Prerequisites
 This script needs to have the following installed on your system:
 * Python3
 * Pip for python3
