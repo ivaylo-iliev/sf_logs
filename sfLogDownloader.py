@@ -8,6 +8,7 @@ from getpass import getpass
 import pyAesCrypt
 from progress.bar import ChargingBar
 from sys import argv
+from os import walk
 
 profile_settings = None
 progress_bar = None
@@ -62,7 +63,19 @@ requiredNamed = parser.add_argument_group('Required arguments')
 requiredNamed.add_argument('name', help='Profile name')
 
 if not len(argv) > 1:
-    print('No profile specified. Exiting.')
+    if os.path.isdir(os.path.join('.', 'profiles')):
+        files = []
+        for (dirpath, dirnames, filenames) in walk(os.path.join('.', 'profiles')):
+            files.extend(filenames)
+        if len(files) > 0:
+            print('No profile specified. Please one one of the following:\n')
+            for file in files:
+                if '.aes' in file:
+                    print(file[:-9])
+                else:
+                    print(file[:-5])
+        else:
+            print('No connection profiles defined. Please use the addConfiguration.py script to create one.')
     exit(0)
 
 args = parser.parse_args()
