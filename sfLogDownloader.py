@@ -9,9 +9,12 @@ import pyAesCrypt
 from progress.bar import ChargingBar
 from sys import argv
 from os import walk
+from pathlib import Path
 
 profile_settings = None
 progress_bar = None
+
+home_directory = str(Path.home())
 
 
 def download_log(instance, log_url, log_id, headers):
@@ -53,7 +56,7 @@ def read_settings(file):
     return settings
 
 
-if not os.path.isdir(os.path.join('.', 'profiles')):
+if not os.path.isdir(os.path.join(home_directory, '.sf_tools', 'profiles')):
     print('No connection profiles defined. Please use the addConfiguration.py script to create one.')
     exit(1)
 
@@ -65,7 +68,7 @@ requiredNamed.add_argument('name', help='Profile name')
 if not len(argv) > 1:
     if os.path.isdir(os.path.join('.', 'profiles')):
         files = []
-        for (dirpath, dirnames, filenames) in walk(os.path.join('.', 'profiles')):
+        for (_, _, filenames) in walk(os.path.join(home_directory, '.sf_tools', 'profiles')):
             files.extend(filenames)
         if len(files) > 0:
             print('No profile specified. Please one one of the following:\n')
@@ -80,7 +83,7 @@ if not len(argv) > 1:
 
 args = parser.parse_args()
 
-file_name = os.path.join('.', 'profiles', args.name + '.json')
+file_name = os.path.join(home_directory, '.sf_tools', 'profiles', args.name + '.json')
 enc_file_name = file_name + '.aes'
 file_is_encrypted = False
 
@@ -146,12 +149,12 @@ log_data = sf.query_all(
     'FROM ApexLog')
 
 items = list(log_data['records'])
-progress_bar = ChargingBar('Processing logs', max=len(items))
 
 if len(items) == 0:
     print("No logs to download found. Exiting.")
     exit(1)
 else:
+    progress_bar = ChargingBar('Processing logs', max=len(items))
     with ThreadPoolExecutor(max_workers=100) as executor:
         for item in items:
             future = executor.submit(download_log, instance_url, item['attributes']['url'], item['Id'], sf.headers)

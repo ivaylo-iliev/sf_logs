@@ -4,9 +4,15 @@ import argparse
 from getpass import getpass
 import pyAesCrypt
 from sys import argv
+from pathlib import Path
 
-if not os.path.isdir(os.path.join('.', 'profiles')):
-    os.makedirs(os.path.join('.', 'profiles'))
+home_directory = str(Path.home())
+
+if not os.path.isdir(os.path.join(home_directory, '.sf_tools')):
+    os.makedirs(os.path.join(home_directory, '.sf_tools'))
+
+if not os.path.isdir(os.path.join(home_directory, '.sf_tools', 'profiles')):
+    os.makedirs(os.path.join(home_directory, '.sf_tools', 'profiles'))
 
 parser = argparse.ArgumentParser(description='Usage:')
 parser.add_argument('-e', '--encryption-password', type=str, help='Password used to encrypt the profile information')
@@ -37,7 +43,7 @@ data['profile'].append({
     'instance-url': args.instance_url
 })
 
-file_name = os.path.join('.', 'profiles', args.name + '.json')
+file_name = os.path.join(home_directory, '.sf_tool', 'profiles', args.name + '.json')
 enc_file_name = file_name + '.aes'
 
 if os.path.isfile(file_name) or os.path.isfile(enc_file_name):
