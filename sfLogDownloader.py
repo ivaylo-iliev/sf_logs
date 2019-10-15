@@ -26,7 +26,7 @@ def download_log(instance, log_url, log_id, headers):
             log_file.write(req_result.text)
         log_file.close()
         progress_bar.update(1)
-    except Exception as e:
+    except Exception:
         print(traceback.format_exc())
 
 
