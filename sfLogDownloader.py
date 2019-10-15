@@ -150,8 +150,6 @@ log_data = sf.query_all(
 
 items = list(log_data['records'])
 
-print(items)
-
 if len(items) == 0:
     print("No logs to download found. Exiting.")
     exit(1)

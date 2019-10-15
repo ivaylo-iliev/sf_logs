@@ -22,7 +22,7 @@ requiredNamed.add_argument('-u', '--user', type=str, help='User name')
 requiredNamed.add_argument('-p', '--password', type=str, help='Password')
 requiredNamed.add_argument('-s', '--security_token', type=str, help='Security token')
 requiredNamed.add_argument('-t', '--type', type=int, help='Environment type. 0 = Sandbox, 1 = Production')
-requiredNamed.add_argument('-i', '--instance_url', type=str, help='Instance URL')
+requiredNamed.add_argument('-i', '--instance_url', type=str, help='Url of the instance as shown in the web browser for salesforce classic after you login')
 
 args = parser.parse_args()
 
