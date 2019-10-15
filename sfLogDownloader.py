@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from simple_salesforce import Salesforce, exceptions
 from getpass import getpass
 import pyAesCrypt
-from progress.bar import ChargingBar
+from tqdm import tqdm
 from sys import argv
 from os import walk
 from pathlib import Path
@@ -22,10 +22,10 @@ def download_log(instance, log_url, log_id, headers):
         log_location = '{instance}{log}/Body'.format(instance=instance, log=log_url)
         req_result = sf.request.get(log_location, headers=headers)
         log_file_name = os.path.join(output_dir, log_id + '.log')
-        with open(log_file_name, mode='w') as log_file:
+        with open(log_file_name, mode='w', encoding='utf8') as log_file:
             log_file.write(req_result.text)
         log_file.close()
-        progress_bar.next()
+        progress_bar.update(1)
     except Exception as e:
         print(traceback.format_exc())
 
@@ -154,9 +154,10 @@ if len(items) == 0:
     print("No logs to download found. Exiting.")
     exit(1)
 else:
-    progress_bar = ChargingBar('Processing logs', max=len(items))
+    progress_bar = tqdm(total=len(items))
     with ThreadPoolExecutor(max_workers=100) as executor:
         for item in items:
             future = executor.submit(download_log, instance_url, item['attributes']['url'], item['Id'], sf.headers)
+    progress_bar.close()
 
-progress_bar.finish()
+
