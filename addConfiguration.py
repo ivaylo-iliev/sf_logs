@@ -43,7 +43,7 @@ data['profile'].append({
     'instance-url': args.instance_url
 })
 
-file_name = os.path.join(home_directory, '.sf_tool', 'profiles', args.name + '.json')
+file_name = os.path.join(home_directory, '.sf_tools', 'profiles', args.name + '.json')
 enc_file_name = file_name + '.aes'
 
 if os.path.isfile(file_name) or os.path.isfile(enc_file_name):

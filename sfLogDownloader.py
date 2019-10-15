@@ -66,7 +66,7 @@ requiredNamed = parser.add_argument_group('Required arguments')
 requiredNamed.add_argument('name', help='Profile name')
 
 if not len(argv) > 1:
-    if os.path.isdir(os.path.join('.', 'profiles')):
+    if os.path.isdir(os.path.join(home_directory, '.sf_tools', 'profiles')):
         files = []
         for (_, _, filenames) in walk(os.path.join(home_directory, '.sf_tools', 'profiles')):
             files.extend(filenames)
@@ -149,6 +149,8 @@ log_data = sf.query_all(
     'FROM ApexLog')
 
 items = list(log_data['records'])
+
+print(items)
 
 if len(items) == 0:
     print("No logs to download found. Exiting.")
