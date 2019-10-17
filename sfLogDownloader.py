@@ -13,13 +13,15 @@ from pathlib import Path
 
 profile_settings = None
 progress_bar = None
+sf = None
 
 home_directory = str(Path.home())
 
 
-def download_log(instance, log_url, log_id, headers):
+def download_log(log_id, headers):
     try:
-        log_location = '{instance}{log}/Body'.format(instance=instance, log=log_url)
+        log_location = '{base_url}sobjects/ApexLog/{log}/Body'.format(base_url=sf.base_url, log=log_id)
+        # print(log_location)
         req_result = sf.request.get(log_location, headers=headers)
         log_file_name = os.path.join(output_dir, log_id + '.log')
         with open(log_file_name, mode='w', encoding='utf8') as log_file:
@@ -101,14 +103,12 @@ username = None
 password = None
 security_token = None
 domain = None
-instance_url = None
 output_dir = None
 
 for value in profile_settings['profile']:
     username = value['user']
     password = value['password']
     security_token = value['token']
-    instance_url = value['instance-url']
 
     if value['type'] is 0:
         domain = 'test'
@@ -154,10 +154,8 @@ if len(items) == 0:
     print("No logs to download found. Exiting.")
     exit(1)
 else:
-    progress_bar = tqdm(total=len(items))
+    progress_bar = tqdm(total=len(items), unit='B')
     with ThreadPoolExecutor(max_workers=100) as executor:
         for item in items:
-            future = executor.submit(download_log, instance_url, item['attributes']['url'], item['Id'], sf.headers)
+            future = executor.submit(download_log, item['Id'], sf.headers)
     progress_bar.close()
-
-
