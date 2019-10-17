@@ -28,7 +28,7 @@ python addConfiguration.py <options>
 ```
 Running the script without any parameters will print a help message. Here is an example of how to use it:
 ```
-python addConfiguration.py -n <ProfileName> -u <Salesforce user> -p <Salesforce password> -s <Salesforce security token> -t <0 or 1> -i <Instance url>
+python addConfiguration.py -n <ProfileName> -u <Salesforce user> -p <Salesforce password> -s <Salesforce security token> -t <0 or 1> 
 ```
 ```
 -n, --name                : Used to specify the name of the connection profile
