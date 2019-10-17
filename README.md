@@ -36,7 +36,6 @@ python addConfiguration.py -n <ProfileName> -u <Salesforce user> -p <Salesforce 
 -p, --password            : Password of the specified Salesforce user
 -s, --security_token      : Salesforce security token for the specified user
 -t, --type                : Type of the environment. Use 0 for sandbox and 1 for produciton ORG
--i, --instance_url        : Url of the instance as shown in the web browser for salesforce classic after you login
 ```
 Optionally you can specify an encryption password by using:
 ```
