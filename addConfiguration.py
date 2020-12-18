@@ -1,3 +1,4 @@
+
 import os.path
 import json
 import argparse
@@ -29,7 +30,7 @@ if not len(argv) > 1:
     parser.print_help()
     exit(0)
 
-if (args.name is None) or (args.user is None) or (args.password is None) or (args.security_token is None):
+if (args.name == None) or (args.user == None) or (args.password == None) or (args.security_token == None):
     print('One or more required arguments not provided. Exiting.')
     exit(1)
 
@@ -46,7 +47,7 @@ enc_file_name = file_name + '.aes'
 
 if os.path.isfile(file_name) or os.path.isfile(enc_file_name):
     ans = input('Profile "{name}" already exists. Do you which to replace it? [Y/N] : '.format(name=args.name))
-    if (ans is 'Y') or (ans is 'y'):
+    if (ans == 'Y') or (ans == 'y'):
         print('Replacing profile {name}'.format(name=args.name))
 
         if os.path.isfile(file_name):
@@ -71,11 +72,11 @@ def encrypt_file(file, passwd):
         os.remove(file_name)
 
 
-if args.encryption_password is not None:
+if args.encryption_password != None:
     encrypt_file(file_name, args.encryption_password)
 else:
     ans = input('Do you want to encrypt the profile information? [Y/N]: ')
-    if (ans is 'Y') or (ans is 'y'):
+    if (ans == 'Y') or (ans == 'y'):
         password = getpass("Password: ")
         encrypt_file(file_name, password)
     else:

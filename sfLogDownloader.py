@@ -110,7 +110,7 @@ for value in profile_settings['profile']:
     password = value['password']
     security_token = value['token']
 
-    if value['type'] is 0:
+    if value['type'] == 0:
         domain = 'test'
     else:
         domain = 'login'
@@ -123,7 +123,7 @@ except exceptions.SalesforceAuthenticationFailed:
     print('Invalid username, password, security token; or user locked out.')
     exit(1)
 
-if args.output_dir is not None:
+if args.output_dir != None:
     output_dir = args.output_dir
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir)
