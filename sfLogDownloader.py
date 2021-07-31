@@ -21,8 +21,9 @@ home_directory = str(Path.home())
 def download_log(log_id, headers):
     try:
         log_location = '{base_url}sobjects/ApexLog/{log}/Body'.format(base_url=sf.base_url, log=log_id)
-        # print(log_location)
-        req_result = sf.request.get(log_location, headers=headers)
+        print(log_location)
+        #req_result = sf.request.get(log_location, headers=headers)
+        req_result = sf.session.get(log_location, headers=headers)
         log_file_name = os.path.join(output_dir, log_id + '.log')
         with open(log_file_name, mode='w', encoding='utf8') as log_file:
             log_file.write(req_result.text)
